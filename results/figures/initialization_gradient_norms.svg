@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+<rect width="100%" height="100%" fill="#fbfbf8"/>
+<text x="450.0" y="32" text-anchor="middle" font-family="Arial" font-size="22" fill="#1f2933">Initialization Comparison: Gradient Norm</text>
+<line x1="74" y1="64" x2="74" y2="494" stroke="#222" stroke-width="1.2"/>
+<line x1="74" y1="494" x2="872" y2="494" stroke="#222" stroke-width="1.2"/>
+<line x1="74.0" y1="494" x2="74.0" y2="499" stroke="#222"/>
+<text x="74.0" y="518" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">1</text>
+<line x1="273.5" y1="494" x2="273.5" y2="499" stroke="#222"/>
+<text x="273.5" y="518" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">88</text>
+<line x1="473.0" y1="494" x2="473.0" y2="499" stroke="#222"/>
+<text x="473.0" y="518" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">176</text>
+<line x1="672.5" y1="494" x2="672.5" y2="499" stroke="#222"/>
+<text x="672.5" y="518" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">263</text>
+<line x1="872.0" y1="494" x2="872.0" y2="499" stroke="#222"/>
+<text x="872.0" y="518" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">350</text>
+<line x1="69" y1="494.0" x2="74" y2="494.0" stroke="#222"/>
+<text x="64" y="498.0" text-anchor="end" font-family="Arial" font-size="12" fill="#333">-0.068</text>
+<line x1="69" y1="386.5" x2="74" y2="386.5" stroke="#222"/>
+<text x="64" y="390.5" text-anchor="end" font-family="Arial" font-size="12" fill="#333">0.332</text>
+<line x1="69" y1="279.0" x2="74" y2="279.0" stroke="#222"/>
+<text x="64" y="283.0" text-anchor="end" font-family="Arial" font-size="12" fill="#333">0.731</text>
+<line x1="69" y1="171.50000000000006" x2="74" y2="171.50000000000006" stroke="#222"/>
+<text x="64" y="175.50000000000006" text-anchor="end" font-family="Arial" font-size="12" fill="#333">1.13</text>
+<line x1="69" y1="64.0" x2="74" y2="64.0" stroke="#222"/>
+<text x="64" y="68.0" text-anchor="end" font-family="Arial" font-size="12" fill="#333">1.53</text>
+<text x="450.0" y="542" text-anchor="middle" font-family="Arial" font-size="14" fill="#333">epoch</text>
+<text x="20" y="280.0" text-anchor="middle" transform="rotate(-90 20 280.0)" font-family="Arial" font-size="14" fill="#333">gradient norm</text>
+<polyline fill="none" stroke="#1b4965" stroke-width="2.4" points="74.00,433.49 94.58,390.94 117.44,396.57 140.31,401.43 163.17,405.68 186.04,437.59 208.91,299.35 231.77,444.94 254.64,351.48 277.50,324.53 300.37,362.84 323.23,387.91 346.10,289.21 368.96,431.75 391.83,250.80 414.69,406.56 437.56,470.43 460.42,83.55 483.29,139.55 506.15,286.62 529.02,200.59 551.89,394.24 574.75,327.15 597.62,366.52 620.48,420.63 643.35,209.51 666.21,309.67 689.08,469.50 711.94,375.66 734.81,298.66 757.67,435.14 780.54,464.37 803.40,223.91 826.27,259.75 849.13,434.48 872.00,377.29"/>
+<line x1="702" y1="68" x2="724" y2="68" stroke="#1b4965" stroke-width="3"/>
+<text x="730" y="72" font-family="Arial" font-size="13" fill="#333">small_random</text>
+<polyline fill="none" stroke="#d1495b" stroke-width="2.4" points="74.00,375.25 94.58,442.64 117.44,440.60 140.31,349.80 163.17,320.25 186.04,401.07 208.91,348.02 231.77,451.21 254.64,306.29 277.50,415.27 300.37,389.82 323.23,420.15 346.10,420.10 368.96,444.82 391.83,415.22 414.69,404.23 437.56,473.35 460.42,130.61 483.29,333.21 506.15,236.70 529.02,88.51 551.89,399.41 574.75,309.61 597.62,412.24 620.48,434.76 643.35,398.72 666.21,426.15 689.08,473.81 711.94,409.50 734.81,294.80 757.67,433.58 780.54,459.90 803.40,177.07 826.27,276.79 849.13,426.86 872.00,396.01"/>
+<line x1="702" y1="90" x2="724" y2="90" stroke="#d1495b" stroke-width="3"/>
+<text x="730" y="94" font-family="Arial" font-size="13" fill="#333">xavier</text>
+<polyline fill="none" stroke="#2a9d8f" stroke-width="2.4" points="74.00,369.14 94.58,443.75 117.44,453.62 140.31,375.01 163.17,383.86 186.04,385.15 208.91,385.85 231.77,432.20 254.64,387.80 277.50,431.36 300.37,401.92 323.23,433.52 346.10,438.68 368.96,390.62 391.83,384.99 414.69,432.95 437.56,474.11 460.42,268.02 483.29,287.29 506.15,344.05 529.02,257.29 551.89,414.90 574.75,386.66 597.62,412.99 620.48,439.42 643.35,446.47 666.21,394.89 689.08,474.45 711.94,446.23 734.81,366.09 757.67,467.42 780.54,472.51 803.40,312.15 826.27,467.24 849.13,462.25 872.00,438.98"/>
+<line x1="702" y1="112" x2="724" y2="112" stroke="#2a9d8f" stroke-width="3"/>
+<text x="730" y="116" font-family="Arial" font-size="13" fill="#333">he</text>
+</svg>
