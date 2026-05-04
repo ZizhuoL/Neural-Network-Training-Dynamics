@@ -2,9 +2,17 @@
 
 ## Executive Summary
 
-This project turns a basic neural-network assignment into a controlled implementation and training-dynamics study. The core artifact is a configurable NumPy MLP framework, supported by reusable experiment scripts, validation tables, loss/accuracy plots, decision-boundary visualizations, interpolation curves, and local Hessian sharpness estimates.
+This project turns a basic neural-network assignment into a controlled implementation and training-dynamics study. The core artifact is a configurable NumPy MLP framework, supported by reusable experiment scripts, validation tables, loss/accuracy plots, PCA decision-boundary visualizations, interpolation curves, and local Hessian sharpness estimates.
 
-The emphasis is not state-of-the-art accuracy. The emphasis is understanding how the model trains, how implementation correctness is validated, and how architecture and optimizer choices affect convergence.
+The primary experiments use the real UCI Banknote Authentication dataset. The emphasis is not state-of-the-art accuracy. The emphasis is understanding how the model trains, how implementation correctness is validated, and how architecture and optimizer choices affect convergence.
+
+## Dataset
+
+The main dataset is UCI Banknote Authentication, cited as:
+
+Lohweg, V. (2012). Banknote Authentication [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C55P57
+
+It contains 1,372 records with four continuous features extracted from banknote images and a binary target. The project keeps synthetic datasets available for optional toy diagnostics, but the generated experiment tables and figures use the real banknote dataset as the primary evidence.
 
 ## Implementation
 
@@ -35,30 +43,30 @@ The code also includes optional JAX forward/loss/gradient support. JAX was not i
 
 ## Experiments
 
-The experiment suite uses deterministic synthetic datasets, primarily two moons. Each experiment changes one major factor while keeping the remaining setup fixed.
+The experiment suite uses deterministic train/test splits of the real UCI Banknote Authentication dataset. Each experiment changes one major factor while keeping the remaining setup fixed.
 
 ### Activation Comparison
 
-The fixed architecture `[2, 16, 16, 1]` was trained with sigmoid, tanh, ReLU, and Leaky ReLU hidden activations. The generated results show ReLU-style activations reaching lower training loss than sigmoid/tanh under the same Adam setup, while all four reached high test accuracy.
+The fixed architecture `[4, 16, 16, 1]` was trained with sigmoid, tanh, ReLU, and Leaky ReLU hidden activations. The generated results show that all four activations can solve this highly separable dataset, while the loss curves and gradient norms still differ.
 
 ### Learning-Rate Sweep
 
-The learning-rate sweep used gradient descent with rates from `0.0001` through `1.0`. Small learning rates trained slowly, while larger rates converged faster on this problem. The gradient-norm curves provide the diagnostic evidence for stability and convergence behavior.
+The learning-rate sweep used gradient descent with rates from `0.0001` through `1.0`. Small learning rates trained slowly, while larger rates converged faster on this problem. The gradient-norm curves provide diagnostic evidence for stability and convergence behavior.
 
 ### Architecture Comparison
 
 The project compares:
 
-- `[2, 4, 1]`
-- `[2, 16, 1]`
-- `[2, 16, 16, 1]`
-- `[2, 32, 32, 16, 1]`
+- `[4, 4, 1]`
+- `[4, 16, 1]`
+- `[4, 16, 16, 1]`
+- `[4, 32, 32, 16, 1]`
 
-Decision-boundary SVGs show how capacity changes the learned classifier. The smallest model underfits compared with the wider models, while the larger models learn more flexible nonlinear boundaries.
+Because the dataset has four features, the decision-boundary SVGs are shown as PCA projections. They are useful visual diagnostics, but the quantitative train/test metrics are the primary comparison.
 
 ### Optimizer Comparison
 
-Gradient descent, momentum, and Adam are compared under a fixed Leaky ReLU architecture. Adam provides the strongest practical baseline in the generated run, while GD and momentum remain useful because their behavior is easier to connect directly to optimization dynamics.
+Gradient descent, momentum, and Adam are compared under a fixed Leaky ReLU architecture. Adam provides a strong practical baseline, while GD and momentum remain useful because their behavior is easier to connect directly to optimization dynamics.
 
 ### Initialization Comparison
 
@@ -99,4 +107,3 @@ These eigenvalues are local sharpness estimates. They should be interpreted alon
 ## Final Takeaway
 
 The finished project supports a defensible resume claim: it demonstrates from-scratch neural-network implementation, gradient validation, optimizer and architecture comparisons, training diagnostics, empirical interpolation analysis, and local sharpness estimation.
-

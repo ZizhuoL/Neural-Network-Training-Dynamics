@@ -147,3 +147,55 @@ def write_decision_boundary(model, X, y, path, title, width=620, height=560, gri
     lines.append("</svg>")
     path.write_text("\n".join(lines), encoding="utf-8")
 
+
+def write_pca_decision_boundary(model, X, y, path, title, width=620, height=560, grid=80):
+    """Plot a decision boundary in the first two principal-component directions."""
+    X = np.asarray(X, dtype=float)
+    if X.shape[1] == 2:
+        write_decision_boundary(model, X, y, path, title, width=width, height=height, grid=grid)
+        return
+
+    mean = X.mean(axis=0, keepdims=True)
+    centered = X - mean
+    _, _, vt = np.linalg.svd(centered, full_matrices=False)
+    components = vt[:2]
+    projected = centered @ components.T
+
+    x_min, x_max = float(projected[:, 0].min() - 0.8), float(projected[:, 0].max() + 0.8)
+    y_min, y_max = float(projected[:, 1].min() - 0.8), float(projected[:, 1].max() + 0.8)
+    xs = np.linspace(x_min, x_max, grid)
+    ys = np.linspace(y_min, y_max, grid)
+    xx, yy = np.meshgrid(xs, ys)
+    projected_grid = np.column_stack([xx.ravel(), yy.ravel()])
+    original_space_grid = projected_grid @ components + mean
+    pred, _ = model.forward(original_space_grid)
+    pred = pred.reshape(grid, grid)
+
+    path = Path(path)
+    margin = 46
+    plot_w = width - 2 * margin
+    plot_h = height - 2 * margin
+    cell_w = plot_w / grid
+    cell_h = plot_h / grid
+
+    lines = _svg_header(width, height)
+    lines.append(f'<text x="{width/2}" y="28" text-anchor="middle" font-family="Arial" font-size="20" fill="#1f2933">{escape(title)}</text>')
+    for i in range(grid):
+        for j in range(grid):
+            p = float(pred[i, j])
+            color = "#e9f5f2" if p >= 0.5 else "#f8e9ec"
+            x = margin + j * cell_w
+            ypix = margin + i * cell_h
+            lines.append(f'<rect x="{x:.2f}" y="{ypix:.2f}" width="{cell_w+0.2:.2f}" height="{cell_h+0.2:.2f}" fill="{color}"/>')
+    lines.append(f'<rect x="{margin}" y="{margin}" width="{plot_w}" height="{plot_h}" fill="none" stroke="#222" stroke-width="1"/>')
+
+    sx = _scale(projected[:, 0], x_min, x_max, margin, margin + plot_w)
+    sy = _scale(projected[:, 1], y_min, y_max, margin + plot_h, margin)
+    labels = y.ravel().astype(int)
+    for xpix, ypix, label in zip(sx, sy, labels):
+        color = "#0f766e" if label == 1 else "#be123c"
+        lines.append(f'<circle cx="{float(xpix):.2f}" cy="{float(ypix):.2f}" r="3.1" fill="{color}" fill-opacity="0.78"/>')
+
+    lines.append(f'<text x="{width/2}" y="{height-14}" text-anchor="middle" font-family="Arial" font-size="12" fill="#555">PCA projection of 4 real banknote features</text>')
+    lines.append("</svg>")
+    path.write_text("\n".join(lines), encoding="utf-8")

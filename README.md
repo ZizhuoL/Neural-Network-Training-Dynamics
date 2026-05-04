@@ -1,6 +1,6 @@
 # Neural Network Optimization & Training Dynamics
 
-This project implements a configurable multilayer perceptron in NumPy and uses it to study how training behavior changes under different activations, learning rates, architectures, initializations, and optimizers. It also includes empirical loss-landscape analysis through weight-space interpolation and local sharpness estimation with Hessian-vector products.
+This project implements a configurable multilayer perceptron in NumPy and uses it to study how training behavior changes under different activations, learning rates, architectures, initializations, and optimizers. The primary experiments use the real UCI Banknote Authentication dataset. The project also includes empirical loss-landscape analysis through weight-space interpolation and local sharpness estimation with Hessian-vector products.
 
 The project is intentionally scoped as an implementation and analysis project, not a claim of new loss-landscape theory.
 
@@ -17,6 +17,7 @@ The project is intentionally scoped as an implementation and analysis project, n
 - Loss landscape: linear interpolation between independently trained networks
 - Sharpness: top Hessian eigenvalue estimation with finite-difference HVPs locally and JAX HVP hooks when JAX is installed
 - Reproducible experiment scripts that generate CSV tables and SVG figures
+- Real dataset loader for UCI Banknote Authentication, with synthetic datasets retained only as optional diagnostics
 
 ## Repository Structure
 
@@ -53,9 +54,27 @@ The project is intentionally scoped as an implementation and analysis project, n
     tables/
   report/
     project_summary.md
+  data/
+    banknote_authentication.csv
+    README.md
   tests/
     test_core.py
 ```
+
+## Dataset
+
+The primary dataset is UCI Banknote Authentication:
+
+- 1,372 instances
+- 4 continuous features extracted from banknote images
+- binary target
+- no missing values
+- DOI: `10.24432/C55P57`
+- license: CC BY 4.0
+
+Citation:
+
+Lohweg, V. (2012). Banknote Authentication [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C55P57
 
 ## Quick Start
 
@@ -101,11 +120,11 @@ Important generated files:
 - `results/figures/learning_rate_gradient_norms.svg`
 - `results/figures/interpolation_loss_curve.svg`
 - `results/figures/hessian_top_eigenvalues.svg`
-- `results/figures/decision_boundary_*.svg`
+- `results/figures/pca_decision_boundary_*.svg`
 
 ## Results Snapshot
 
-On the generated two-moons experiments, ReLU and Leaky ReLU trained faster than sigmoid and tanh in the fixed architecture comparison. Gradient descent showed strong learning-rate sensitivity, while Adam gave a strong practical baseline. Larger architectures produced more flexible decision boundaries, but the summary table should be interpreted alongside train/test accuracy and gradient norms.
+On the real UCI Banknote Authentication experiments, the task is highly separable: several settings reach 100% test accuracy. This makes the dataset useful for validating implementation and comparing convergence behavior, but less useful as a difficult benchmark. Learning-rate and optimizer comparisons remain informative because they show different convergence speeds, gradient norms, and local sharpness estimates.
 
 Finite-difference gradient checks passed for both MSE and binary cross-entropy with maximum relative errors near `1e-9` to `1e-10` in the local run.
 
@@ -116,6 +135,5 @@ The Hessian table reports top-eigenvalue estimates together with train loss and 
 Neural Network Optimization & Training Dynamics | Python, NumPy, JAX, Matplotlib | Spring 2026
 
 - Built a configurable MLP framework in NumPy with optional JAX validation support, including variable network depth and width, sigmoid, tanh, ReLU, and Leaky ReLU activations, MSE and cross-entropy losses, and gradient descent, momentum, and Adam optimizers.
-- Verified backpropagation with finite-difference gradient checks and implemented JAX autodiff comparison hooks; benchmarked activation functions, learning rates, initialization schemes, and model capacity using convergence curves, accuracy, and gradient-norm diagnostics.
+- Verified backpropagation with finite-difference gradient checks and implemented JAX autodiff comparison hooks; benchmarked activation functions, learning rates, initialization schemes, and model capacity on the real UCI Banknote Authentication dataset using convergence curves, accuracy, and gradient-norm diagnostics.
 - Studied empirical loss-landscape behavior through weight-space interpolation between independently trained networks and estimated local sharpness using Hessian-vector-product power iteration.
-

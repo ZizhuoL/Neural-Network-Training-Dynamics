@@ -5,6 +5,8 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+import numpy as np
+
 from src.datasets import get_binary_dataset, standardize_train_test, train_test_split
 from src.metrics import gradient_norm
 
@@ -19,8 +21,13 @@ def ensure_results_dirs():
     TABLES.mkdir(parents=True, exist_ok=True)
 
 
-def load_binary_split(dataset="moons", n_samples=1000, seed=0):
-    X, y = get_binary_dataset(dataset, n_samples=n_samples, seed=seed)
+def load_binary_split(dataset="banknote", n_samples=None, seed=0):
+    X, y = get_binary_dataset(dataset, n_samples=n_samples or 1000, seed=seed)
+    if n_samples is not None and n_samples < len(X):
+        rng = np.random.default_rng(seed)
+        idx = rng.permutation(len(X))[:n_samples]
+        X = X[idx]
+        y = y[idx]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_fraction=0.25, seed=seed)
     X_train, X_test = standardize_train_test(X_train, X_test)
     return X_train, X_test, y_train, y_test

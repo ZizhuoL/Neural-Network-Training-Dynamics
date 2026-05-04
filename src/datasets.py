@@ -2,7 +2,14 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+from urllib.request import urlopen
+
 import numpy as np
+
+
+BANKNOTE_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/00267/data_banknote_authentication.txt"
+BANKNOTE_COLUMNS = ["variance", "skewness", "curtosis", "entropy", "class"]
 
 
 def train_test_split(
@@ -75,5 +82,35 @@ def get_binary_dataset(name: str, n_samples: int = 1000, seed: int = 0):
         return make_circles(n_samples=n_samples, noise=0.08, seed=seed)
     if name == "toy":
         return make_toy_assignment(n_samples=n_samples, seed=seed)
+    if name == "banknote":
+        return load_banknote_authentication()
     raise ValueError(f"Unknown dataset '{name}'")
 
+
+def download_banknote_authentication(path: str | Path) -> Path:
+    """Download the UCI Banknote Authentication dataset to a CSV file."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    raw = urlopen(BANKNOTE_URL, timeout=30).read().decode("utf-8")
+    path.write_text(",".join(BANKNOTE_COLUMNS) + "\n" + raw, encoding="utf-8")
+    return path
+
+
+def load_banknote_authentication(path: str | Path | None = None, download: bool = True):
+    """Load the real UCI Banknote Authentication dataset.
+
+    The dataset contains 1,372 records with four continuous features extracted
+    from banknote images and a binary class target.
+    """
+    if path is None:
+        path = Path(__file__).resolve().parents[1] / "data" / "banknote_authentication.csv"
+    path = Path(path)
+    if not path.exists():
+        if not download:
+            raise FileNotFoundError(f"Missing dataset file: {path}")
+        download_banknote_authentication(path)
+
+    data = np.loadtxt(path, delimiter=",", skiprows=1)
+    X = data[:, :4].astype(float)
+    y = data[:, [4]].astype(float)
+    return X, y

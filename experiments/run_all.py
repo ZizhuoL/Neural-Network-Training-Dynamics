@@ -23,11 +23,11 @@ def main():
     ensure_results_dirs()
     if args.quick:
         epochs = 80
-        n_samples = 400
+        n_samples = 500
         hessian_epochs = 80
     else:
         epochs = 350
-        n_samples = 900
+        n_samples = None
         hessian_epochs = 300
 
     print("Running gradient validation...")
@@ -45,7 +45,8 @@ def main():
     print("Running interpolation analysis...")
     run_interpolation(epochs=epochs, n_samples=n_samples)
     print("Running Hessian sharpness analysis...")
-    hessian_rows = run_hessian(epochs=hessian_epochs, n_samples=max(300, n_samples // 2))
+    hessian_samples = 800 if n_samples is None else max(300, n_samples // 2)
+    hessian_rows = run_hessian(epochs=hessian_epochs, n_samples=hessian_samples)
 
     summary_rows = []
     for group, rows in [

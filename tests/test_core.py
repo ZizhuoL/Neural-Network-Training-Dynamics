@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from src.datasets import make_moons, standardize_train_test, train_test_split
+from src.datasets import load_banknote_authentication, make_moons, standardize_train_test, train_test_split
 from src.gradient_check import finite_difference_check
 from src.mlp_numpy import MLPNumPy
 from src.training import train
@@ -36,3 +36,9 @@ def test_training_reduces_loss():
     assert history["train_loss"][-1] < history["train_loss"][0]
     assert history["test_accuracy"][-1] >= 0.75
 
+
+def test_load_real_banknote_dataset():
+    X, y = load_banknote_authentication(download=False)
+    assert X.shape == (1372, 4)
+    assert y.shape == (1372, 1)
+    assert set(y.ravel().astype(int)) == {0, 1}

@@ -8,15 +8,15 @@ from src.training import train
 from src.visualization import write_multi_line_plot
 
 
-def run(epochs=300, n_samples=900):
+def run(epochs=300, n_samples=None):
     ensure_results_dirs()
-    X_train, X_test, y_train, y_test = load_binary_split("moons", n_samples=n_samples, seed=11)
+    X_train, X_test, y_train, y_test = load_binary_split("banknote", n_samples=n_samples, seed=11)
     learning_rates = [0.0001, 0.001, 0.01, 0.1, 1.0]
     loss_series = []
     grad_series = []
     rows = []
     for lr in learning_rates:
-        model = MLPNumPy([2, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=9)
+        model = MLPNumPy([4, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=9)
         history = train(
             model,
             X_train,
@@ -43,4 +43,3 @@ def run(epochs=300, n_samples=900):
 
 if __name__ == "__main__":
     run()
-

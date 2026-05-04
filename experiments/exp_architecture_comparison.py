@@ -5,17 +5,17 @@ from __future__ import annotations
 from experiments.common import FIGURES, TABLES, ensure_results_dirs, load_binary_split, save_rows_csv, summarize_run
 from src.mlp_numpy import MLPNumPy
 from src.training import train
-from src.visualization import write_decision_boundary, write_multi_line_plot
+from src.visualization import write_multi_line_plot, write_pca_decision_boundary
 
 
-def run(epochs=350, n_samples=900):
+def run(epochs=350, n_samples=None):
     ensure_results_dirs()
-    X_train, X_test, y_train, y_test = load_binary_split("moons", n_samples=n_samples, seed=12)
+    X_train, X_test, y_train, y_test = load_binary_split("banknote", n_samples=n_samples, seed=12)
     architectures = [
-        [2, 4, 1],
-        [2, 16, 1],
-        [2, 16, 16, 1],
-        [2, 32, 32, 16, 1],
+        [4, 4, 1],
+        [4, 16, 1],
+        [4, 16, 16, 1],
+        [4, 32, 32, 16, 1],
     ]
     series = []
     rows = []
@@ -37,7 +37,7 @@ def run(epochs=350, n_samples=900):
         )
         series.append({"label": label, "x": history["epoch"], "y": history["test_accuracy"]})
         rows.append(summarize_run(label, model, history, X_train, y_train, X_test, y_test, "binary_cross_entropy"))
-        write_decision_boundary(model, X_test, y_test, FIGURES / f"decision_boundary_{label}.svg", f"Decision Boundary: [{', '.join(map(str, layer_sizes))}]")
+        write_pca_decision_boundary(model, X_test, y_test, FIGURES / f"pca_decision_boundary_{label}.svg", f"PCA Decision Boundary: [{', '.join(map(str, layer_sizes))}]")
 
     write_multi_line_plot(series, FIGURES / "architecture_accuracy_curves.svg", "Architecture Comparison: Test Accuracy", y_label="test accuracy")
     save_rows_csv(rows, TABLES / "architecture_comparison.csv")
@@ -46,4 +46,3 @@ def run(epochs=350, n_samples=900):
 
 if __name__ == "__main__":
     run()
-

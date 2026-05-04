@@ -8,9 +8,9 @@ from src.training import train
 from src.visualization import write_multi_line_plot
 
 
-def run(epochs=350, n_samples=900):
+def run(epochs=350, n_samples=None):
     ensure_results_dirs()
-    X_train, X_test, y_train, y_test = load_binary_split("moons", n_samples=n_samples, seed=13)
+    X_train, X_test, y_train, y_test = load_binary_split("banknote", n_samples=n_samples, seed=13)
     settings = [
         ("gd", 0.05),
         ("momentum", 0.08),
@@ -20,7 +20,7 @@ def run(epochs=350, n_samples=900):
     acc_series = []
     rows = []
     for optimizer, lr in settings:
-        model = MLPNumPy([2, 16, 16, 1], hidden_activation="leaky_relu", output_activation="sigmoid", initialization="he", seed=13)
+        model = MLPNumPy([4, 16, 16, 1], hidden_activation="leaky_relu", output_activation="sigmoid", initialization="he", seed=13)
         history = train(
             model,
             X_train,
@@ -47,4 +47,3 @@ def run(epochs=350, n_samples=900):
 
 if __name__ == "__main__":
     run()
-

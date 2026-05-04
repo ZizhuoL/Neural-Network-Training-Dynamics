@@ -11,12 +11,12 @@ from src.training import train
 from src.visualization import write_multi_line_plot
 
 
-def run(epochs=400, n_samples=900):
+def run(epochs=400, n_samples=None):
     ensure_results_dirs()
-    X_train, X_test, y_train, y_test = load_binary_split("moons", n_samples=n_samples, seed=15)
+    X_train, X_test, y_train, y_test = load_binary_split("banknote", n_samples=n_samples, seed=15)
     trained = []
     for seed in [21, 84]:
-        model = MLPNumPy([2, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=seed)
+        model = MLPNumPy([4, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=seed)
         train(
             model,
             X_train,
@@ -32,7 +32,7 @@ def run(epochs=400, n_samples=900):
         )
         trained.append(model.copy_params())
 
-    probe = MLPNumPy([2, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=999)
+    probe = MLPNumPy([4, 16, 16, 1], hidden_activation="relu", output_activation="sigmoid", initialization="he", seed=999)
     curve = interpolation_curve(probe, trained[0], trained[1], X_test, y_test, "binary_cross_entropy", points=51)
 
     with (TABLES / "interpolation_curve.csv").open("w", newline="", encoding="utf-8") as f:
@@ -53,4 +53,3 @@ def run(epochs=400, n_samples=900):
 
 if __name__ == "__main__":
     run()
-
