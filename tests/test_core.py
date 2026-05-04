@@ -42,3 +42,16 @@ def test_load_real_banknote_dataset():
     assert X.shape == (1372, 4)
     assert y.shape == (1372, 1)
     assert set(y.ravel().astype(int)) == {0, 1}
+
+
+def test_jax_autodiff_matches_backprop_when_available():
+    from src.mlp_jax import available
+
+    if not available():
+        return
+    from src.gradient_check import jax_autodiff_check
+
+    X, y = make_moons(n_samples=32, noise=0.1, seed=4)
+    model = MLPNumPy([2, 3, 1], hidden_activation="tanh", output_activation="sigmoid", initialization="xavier", seed=4)
+    result = jax_autodiff_check(model, X[:12], y[:12], "binary_cross_entropy")
+    assert result["max_relative_error"] < 1e-4

@@ -13,9 +13,9 @@ The project is intentionally scoped as an implementation and analysis project, n
 - Initializers: small random, Xavier, He, and activation-aware auto mode
 - Optimizers: gradient descent, momentum, Adam
 - Training diagnostics: loss, accuracy, gradient norm, parameter norm
-- Gradient validation: finite differences and optional JAX autodiff
+- Gradient validation: finite differences and JAX automatic differentiation
 - Loss landscape: linear interpolation between independently trained networks
-- Sharpness: top Hessian eigenvalue estimation with finite-difference HVPs locally and JAX HVP hooks when JAX is installed
+- Sharpness: top Hessian eigenvalue estimation with JAX Hessian-vector products and power iteration
 - Reproducible experiment scripts that generate CSV tables and SVG figures
 - Real dataset loader for UCI Banknote Authentication, with synthetic datasets retained only as optional diagnostics
 
@@ -92,15 +92,15 @@ python main.py
 
 The scripts write figures to `results/figures/` and tables to `results/tables/`.
 
-## Optional Full Environment
+## Full Environment
 
-The core project runs with NumPy only. For the full planned environment, install:
+Install the project dependencies, including JAX:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-JAX enables autodiff gradient comparison and native JAX Hessian-vector products. In the local Codex runtime used to generate these artifacts, JAX was not installed, so the saved validation table reports JAX checks as skipped while finite-difference checks pass.
+JAX is used for automatic-differentiation gradient validation and native Hessian-vector products. The generated `gradient_validation.csv` table includes passing JAX autodiff checks, and `hessian_sharpness.csv` reports `jax_jvp_hvp` as the HVP method.
 
 ## Generated Evidence
 
@@ -134,6 +134,6 @@ The Hessian table reports top-eigenvalue estimates together with train loss and 
 
 Neural Network Optimization & Training Dynamics | Python, NumPy, JAX, Matplotlib | Spring 2026
 
-- Built a configurable MLP framework in NumPy with optional JAX validation support, including variable network depth and width, sigmoid, tanh, ReLU, and Leaky ReLU activations, MSE and cross-entropy losses, and gradient descent, momentum, and Adam optimizers.
+- Built a configurable NumPy and JAX MLP framework, including variable network depth and width, sigmoid, tanh, ReLU, and Leaky ReLU activations, MSE and cross-entropy losses, and gradient descent, momentum, and Adam optimizers.
 - Verified backpropagation with finite-difference gradient checks and implemented JAX autodiff comparison hooks; benchmarked activation functions, learning rates, initialization schemes, and model capacity on the real UCI Banknote Authentication dataset using convergence curves, accuracy, and gradient-norm diagnostics.
 - Studied empirical loss-landscape behavior through weight-space interpolation between independently trained networks and estimated local sharpness using Hessian-vector-product power iteration.

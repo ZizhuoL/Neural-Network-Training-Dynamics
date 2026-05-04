@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from experiments.common import FIGURES, TABLES, ensure_results_dirs, load_binary_split, save_rows_csv, summarize_run
-from src.hessian import estimate_top_hessian_eigenvalue_numpy
+from src.hessian import estimate_top_hessian_eigenvalue_jax, estimate_top_hessian_eigenvalue_numpy
 from src.mlp_numpy import MLPNumPy
 from src.training import train
 from src.visualization import write_bar_chart
@@ -37,17 +37,29 @@ def run(epochs=300, n_samples=800):
             log_every=20,
             seed=16,
         )
-        eig = estimate_top_hessian_eigenvalue_numpy(
-            model,
-            X_train[:160],
-            y_train[:160],
-            "binary_cross_entropy",
-            num_iters=16,
-            seed=16,
-        )
+        try:
+            eig = estimate_top_hessian_eigenvalue_jax(
+                model,
+                X_train[:160],
+                y_train[:160],
+                "binary_cross_entropy",
+                num_iters=16,
+                seed=16,
+            )
+            hvp_method = "jax_jvp_hvp"
+        except RuntimeError:
+            eig = estimate_top_hessian_eigenvalue_numpy(
+                model,
+                X_train[:160],
+                y_train[:160],
+                "binary_cross_entropy",
+                num_iters=16,
+                seed=16,
+            )
+            hvp_method = "finite_difference_hvp_numpy"
         row = summarize_run(label, model, history, X_train, y_train, X_test, y_test, "binary_cross_entropy")
         row["top_hessian_eigenvalue"] = eig
-        row["hvp_method"] = "finite_difference_hvp_numpy"
+        row["hvp_method"] = hvp_method
         rows.append(row)
         labels.append(label)
         eigenvalues.append(max(eig, 0.0))

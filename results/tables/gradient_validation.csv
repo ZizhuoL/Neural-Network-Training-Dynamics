@@ -1,5 +1,5 @@
 method,loss,hidden_activation,max_relative_error,status
 finite_difference,mse,tanh,1.302864612021934e-09,passed
-jax_autodiff,mse,tanh,,skipped: JAX is optional but required for autodiff validation and native HVPs. Install the dependencies in requirements.txt to enable this module.
+jax_autodiff,mse,tanh,1.934297597171241e-15,passed
 finite_difference,binary_cross_entropy,tanh,1.5335673549967472e-10,passed
-jax_autodiff,binary_cross_entropy,tanh,,skipped: JAX is optional but required for autodiff validation and native HVPs. Install the dependencies in requirements.txt to enable this module.
+jax_autodiff,binary_cross_entropy,tanh,5.457471235747399e-16,passed

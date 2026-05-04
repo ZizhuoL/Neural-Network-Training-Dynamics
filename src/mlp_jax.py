@@ -6,10 +6,11 @@ from __future__ import annotations
 def require_jax():
     try:
         import jax
+        jax.config.update("jax_enable_x64", True)
         import jax.numpy as jnp
     except ImportError as exc:
         raise RuntimeError(
-            "JAX is optional but required for autodiff validation and native HVPs. "
+            "JAX is required for autodiff validation and native HVPs. "
             "Install the dependencies in requirements.txt to enable this module."
         ) from exc
     return jax, jnp
@@ -69,7 +70,7 @@ def loss(
     _, jnp = require_jax()
     y_true = jnp.asarray(y)
     y_pred = forward(params, X, hidden_activation=hidden_activation, output_activation=output_activation)
-    eps = 1e-12
+    eps = 1e-9
     if loss_name == "mse":
         return jnp.mean((y_pred - y_true) ** 2)
     if loss_name == "binary_cross_entropy":

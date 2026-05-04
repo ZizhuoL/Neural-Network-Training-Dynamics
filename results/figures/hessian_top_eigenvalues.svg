@@ -5,18 +5,18 @@
 <line x1="74" y1="410" x2="822" y2="410" stroke="#222" stroke-width="1.2"/>
 <text x="20" y="260.0" text-anchor="middle" transform="rotate(-90 20 260.0)" font-family="Arial" font-size="14" fill="#333">estimated lambda max</text>
 <rect x="102.42" y="101.07" width="92.75" height="308.93" fill="#1b4965"/>
-<text x="148.80" y="95.07" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">3.78</text>
+<text x="148.80" y="95.07" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.254</text>
 <text x="148.80" y="430" text-anchor="end" transform="rotate(-35 148.80 430)" font-family="Arial" font-size="12" fill="#333">ReLU, GD, He init</text>
-<rect x="252.02" y="397.05" width="92.75" height="12.95" fill="#d1495b"/>
-<text x="298.40" y="391.05" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.158</text>
+<rect x="252.02" y="217.57" width="92.75" height="192.43" fill="#d1495b"/>
+<text x="298.40" y="211.57" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.158</text>
 <text x="298.40" y="430" text-anchor="end" transform="rotate(-35 298.40 430)" font-family="Arial" font-size="12" fill="#333">ReLU, Momentum, He init</text>
-<rect x="401.62" y="407.59" width="92.75" height="2.41" fill="#2a9d8f"/>
-<text x="448.00" y="401.59" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.0295</text>
+<rect x="401.62" y="407.48" width="92.75" height="2.52" fill="#2a9d8f"/>
+<text x="448.00" y="401.48" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.00207</text>
 <text x="448.00" y="430" text-anchor="end" transform="rotate(-35 448.00 430)" font-family="Arial" font-size="12" fill="#333">ReLU, Adam, He init</text>
-<rect x="551.22" y="409.32" width="92.75" height="0.68" fill="#f4a261"/>
-<text x="597.60" y="403.32" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.00835</text>
+<rect x="551.22" y="399.85" width="92.75" height="10.15" fill="#f4a261"/>
+<text x="597.60" y="393.85" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.00835</text>
 <text x="597.60" y="430" text-anchor="end" transform="rotate(-35 597.60 430)" font-family="Arial" font-size="12" fill="#333">Tanh, Adam, Xavier init</text>
-<rect x="700.82" y="407.92" width="92.75" height="2.08" fill="#6d597a"/>
-<text x="747.20" y="401.92" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.0254</text>
+<rect x="700.82" y="408.55" width="92.75" height="1.45" fill="#6d597a"/>
+<text x="747.20" y="402.55" text-anchor="middle" font-family="Arial" font-size="12" fill="#333">0.00119</text>
 <text x="747.20" y="430" text-anchor="end" transform="rotate(-35 747.20 430)" font-family="Arial" font-size="12" fill="#333">Leaky ReLU, Adam, He init</text>
 </svg>

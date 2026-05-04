@@ -1,4 +1,4 @@
-"""Validate NumPy backpropagation with finite differences and optional JAX autodiff."""
+"""Validate NumPy backpropagation with finite differences and JAX autodiff."""
 
 from __future__ import annotations
 
@@ -63,4 +63,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-

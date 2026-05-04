@@ -39,7 +39,7 @@ Backpropagation was validated with centered finite differences on small networks
 - MSE max relative error: about `1.3e-9`
 - binary cross-entropy max relative error: about `1.5e-10`
 
-The code also includes optional JAX forward/loss/gradient support. JAX was not installed in the local Codex runtime, so the generated validation table marks JAX autodiff checks as skipped. Installing `requirements.txt` enables the JAX validation path.
+The code includes JAX forward, loss, and gradient support. The generated validation table includes passing JAX autodiff checks in addition to finite-difference checks.
 
 ## Experiments
 
@@ -84,7 +84,7 @@ The resulting curve is saved to `results/tables/interpolation_curve.csv` and plo
 
 ## Hessian Sharpness
 
-The project estimates the largest local Hessian eigenvalue with Hessian-vector products and power iteration. In the local runtime, the HVP is computed through finite differences of gradients. The code also includes a JAX HVP implementation using `jax.grad`, `jax.jvp`, and `ravel_pytree` for environments with JAX installed.
+The project estimates the largest local Hessian eigenvalue with Hessian-vector products and power iteration. The generated results use a JAX HVP implementation based on `jax.grad`, `jax.jvp`, and `ravel_pytree`.
 
 The saved table reports:
 
@@ -100,7 +100,7 @@ These eigenvalues are local sharpness estimates. They should be interpreted alon
 ## Limitations
 
 - The project is intentionally small-scale and uses synthetic datasets by default.
-- JAX checks require installing the optional dependency set.
+- JAX must be installed to reproduce the autodiff and native HVP results.
 - Hessian sharpness is a local diagnostic, not a complete theory of generalization.
 - The project is not a PyTorch clone and does not aim for large-scale benchmarking.
 
